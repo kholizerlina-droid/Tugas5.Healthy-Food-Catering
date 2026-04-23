@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nourish Catering - Profesional & Fungsional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body class="bg-stone-50 text-slate-800 font-sans" x-data="nourishApp">
+    <nav class="bg-white/70 backdrop-blur-xl border-b border-stone-100 sticky top-0 z-[100] transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-6 h-24 flex justify-between items-center">
+        
+        <div class="group flex items-center gap-4 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            <div class="font-black text-[#1a1a1a] text-2xl leading-none tracking-tighter transition-transform group-hover:-translate-y-0.5">
+                NOURISH<br>
+                <span class="text-[9px] tracking-[0.5em] text-orange-500 uppercase font-bold">Catering</span>
+            </div>
+            <div class="h-8 w-[1px] bg-stone-200 hidden md:block"></div>
+            <span class="hidden md:block text-[10px] uppercase tracking-widest text-stone-400 font-medium">Est. 2026</span>
+        </div>
+        
+        <div class="hidden md:flex items-center space-x-10">
+            <template x-for="link in ['Home', 'About', 'Catering', 'Testimonials', 'Contact']">
+                <a :href="'#' + link.toLowerCase()" 
+                   class="relative text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500 hover:text-orange-600 transition-colors duration-500 group">
+                    <span x-text="link"></span>
+                    <span class="absolute -bottom-2 left-0 w-0 h-[1.5px] bg-orange-500 transition-all duration-500 group-hover:w-full"></span>
+                </a>
+            </template>
+        </div>
+
+        <div class="flex items-center gap-6">
+            
+            <div class="relative flex items-center justify-end" x-data="{ openSearch: false }">
+                <input 
+                    x-show="openSearch" 
+                    x-model="search"
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 w-0"
+                    x-transition:enter-end="opacity-100 w-48"
+                    @click.away="openSearch = false"
+                    type="text" 
+                    placeholder="Cari menu sehat..." 
+                    class="bg-stone-100 border border-stone-200 rounded-full px-4 py-2 text-[11px] focus:outline-none focus:ring-1 focus:ring-orange-200 transition-all"
+                >
+                <button @click="openSearch = !openSearch" class="ml-2 text-stone-400 hover:text-stone-800 transition p-2">
+                    <i class="fas fa-search text-sm"></i>
+                </button>
+            </div>
+
+            <button @click="isCartOpen = true" 
+                    class="group relative flex items-center gap-3 bg-stone-900 text-white px-6 py-3 rounded-full hover:bg-emerald-900 transition-all duration-500 shadow-lg hover:shadow-emerald-900/20 active:scale-95">
+                <span class="text-[10px] font-bold uppercase tracking-widest hidden sm:block">My Order</span>
+                <div class="relative">
+                    <i class="fas fa-shopping-basket text-sm transition-transform group-hover:rotate-12"></i>
+                    <span x-show="cart.length > 0" 
+                          x-transition:enter="transition ease-out duration-300"
+                          x-transition:enter-start="scale-0"
+                          x-transition:enter-end="scale-100"
+                          x-text="cart.reduce((s, i) => s + i.qty, 0)" 
+                          class="absolute -top-3 -right-3 bg-orange-500 text-white text-[9px] font-black h-5 w-5 flex items-center justify-center rounded-full border-2 border-stone-900">
+                    </span>
+                </div>
+            </button>
+        </div>
+    </div>
+</nav>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;700&family=Playfair+Display:ital,wght@0,900;1,400&display=swap" rel="stylesheet">
+
+<header id="home" class="relative min-h-screen flex items-center bg-[#FDFDFD] py-20 px-6 overflow-hidden font-['Plus_Jakarta_Sans']">
+    
+    <div class="absolute top-0 right-0 w-1/2 h-full bg-[#F7F9F6] -skew-x-6 translate-x-20 z-0"></div>
+    <div class="absolute top-[10%] left-[5%] w-72 h-72 bg-orange-200/30 rounded-full blur-[100px]"></div>
+    <div class="absolute bottom-[10%] right-[10%] w-96 h-96 bg-emerald-100/40 rounded-full blur-[120px]"></div>
+
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12 items-center relative z-10">
+        
+        <div class="lg:col-span-6 space-y-12">
+            <div class="space-y-6">
+                <div class="inline-flex items-center gap-3 bg-white/80 backdrop-blur-md border border-stone-100 px-4 py-2 rounded-full shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
+                    <span class="text-[10px] tracking-[0.4em] text-stone-500 uppercase font-bold">Premium Catering Service</span>
+                </div>
+                
+                <h1 class="text-8xl md:text-9xl font-extrabold text-[#1a1a1a] tracking-[ -0.05em] leading-[0.85]">
+                    Nouri<span class="font-['Playfair_Display'] italic font-medium text-emerald-800">sh</span><span class="text-orange-500">.</span>
+                </h1>
+                
+                <p class="text-lg md:text-xl font-light text-stone-400 leading-relaxed max-w-md">
+                    Di mana <span class="text-stone-800 font-semibold underline decoration-orange-200 underline-offset-8">Nutrisi</span> bertemu dengan <span class="font-['Playfair_Display'] italic text-stone-800">Fine Dining</span>.
+                </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center gap-6">
+                <a href="#catering" class="w-full sm:w-auto text-center bg-stone-900 text-white px-12 py-5 rounded-full font-bold text-[11px] uppercase tracking-[0.3em] hover:bg-emerald-900 transition-all duration-500 shadow-2xl hover:-translate-y-1">
+                    Explore Menu
+                </a>
+                <div class="flex -space-x-4">
+                    <div class="w-12 h-12 rounded-full border-4 border-white bg-stone-200 overflow-hidden"><img src="https://i.pravatar.cc/100?u=1" alt=""></div>
+                    <div class="w-12 h-12 rounded-full border-4 border-white bg-stone-200 overflow-hidden"><img src="https://i.pravatar.cc/100?u=2" alt=""></div>
+                    <div class="w-12 h-12 rounded-full border-4 border-white bg-stone-200 flex items-center justify-center bg-white text-[10px] font-bold">+2k</div>
+                </div>
+                <p class="text-[11px] text-stone-400 font-medium tracking-wide">Trusted by Healthy Enthusiasts</p>
+            </div>
+        </div>
+
+        <div class="lg:col-span-6 relative">
+            <div class="relative group">
+                <div class="relative z-10 overflow-hidden rounded-[3rem] rounded-tr-[10rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] border-[20px] border-white">
+                    <img src="Mediterranean Bowls.jpg" 
+                         class="w-full h-[650px] object-cover transition-transform duration-[4s] group-hover:scale-110" 
+                         alt="Luxury Catering">
+                </div>
+
+                <div class="absolute -bottom-8 -left-8 z-20 bg-white/70 backdrop-blur-xl p-8 rounded-[2rem] border border-white/50 shadow-2xl max-w-[200px]">
+                    <p class="text-[10px] uppercase tracking-widest text-emerald-700 font-bold mb-2">Ingredients</p>
+                    <p class="text-sm font-light text-stone-600 leading-relaxed italic font-['Playfair_Display']">"Hanya bahan organik bersertifikat yang sampai ke dapur kami."</p>
+                </div>
+
+                <div class="absolute -top-6 -right-6 z-20 bg-orange-500 text-white p-6 rounded-3xl shadow-2xl rotate-12 group-hover:rotate-0 transition-transform duration-700">
+                    <div class="text-center">
+                        <p class="text-[10px] uppercase tracking-widest font-bold opacity-80">Daily</p>
+                        <p class="text-3xl font-black font-['Playfair_Display'] italic leading-none">Fresh</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+
+<section id="about" class="py-40 bg-[#FCFBFA] overflow-hidden font-['Montserrat']">
+    <div class="max-w-7xl mx-auto px-6 relative">
+        
+        <div class="absolute -top-20 -right-10 text-[15rem] font-black text-stone-100/50 pointer-events-none select-none font-['Cormorant_Garamond']">
+            Heritage
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-24 items-center">
+            
+            <div class="lg:col-span-5 relative">
+                <div class="relative z-10 rounded-[2rem] overflow-hidden shadow-2xl border-[1px] border-stone-200">
+                    <img src="chef.jpg" 
+                         class="w-full h-[600px] object-cover transition-transform duration-[4s] hover:scale-110" 
+                         alt="Chef de Cuisine">
+                    
+                    <div class="absolute inset-0 bg-gradient-to-t from-stone-900/40 via-transparent to-transparent"></div>
+                    
+                    <div class="absolute bottom-8 left-8 text-white">
+                        <p class="text-[9px] uppercase tracking-[0.4em] font-bold opacity-80 mb-1">Founder & Executive Chef</p>
+                        <p class="font-['Cormorant_Garamond'] text-2xl italic">Adrian & Verry</p>
+                    </div>
+                </div>
+
+                <div class="absolute -bottom-16 -right-16 w-64 h-64 rounded-2xl overflow-hidden border-[12px] border-[#FCFBFA] shadow-2xl z-20 hidden md:block">
+                    <img src="Salmon Lemon Grill.jpg" class="w-full h-full object-cover" alt="Fresh Ingredients">
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 space-y-12">
+                <div class="space-y-6">
+                    <div class="flex items-center gap-4">
+                        <span class="text-[11px] tracking-[0.6em] text-orange-600 uppercase font-bold">The Essence of Nourish</span>
+                        <div class="h-[1px] flex-grow bg-stone-200"></div>
+                    </div>
+                    
+                    <h2 class="text-6xl md:text-7xl font-['Cormorant_Garamond'] text-stone-900 leading-[0.9] tracking-tight">
+                        Integritas dalam <br>
+                        <span class="italic font-light text-stone-500">Setiap Tekstur.</span>
+                    </h2>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div class="space-y-6">
+                        <p class="text-sm text-stone-500 leading-[2] font-light">
+                            Di Nourish, kami percaya bahwa kemewahan sejati dimulai dari bumi. Kami mengkurasi bahan organik yang tidak hanya memenuhi standar nutrisi, tetapi juga memiliki cerita dan jiwa di setiap seratnya.
+                        </p>
+                        <p class="text-sm text-stone-500 leading-[2] font-light">
+                            Bukan sekadar katering, kami adalah persembahan kuliner bagi mereka yang menghargai kesehatan sebagai aset paling eksklusif dalam hidup.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-3xl border border-stone-100 shadow-[0_20px_40px_rgba(0,0,0,0.03)] flex flex-col justify-center">
+                        <div class="mb-4">
+                            <span class="text-orange-500 text-3xl font-['Cormorant_Garamond'] italic">“</span>
+                        </div>
+                        <p class="text-[15px] font-['Cormorant_Garamond'] text-stone-800 leading-relaxed italic mb-4">
+                            "Kami tidak memasak untuk sekadar mengenyangkan, kami memasak untuk menghidupkan kembali energi Anda."
+                        </p>
+                        <div class="h-[1px] w-8 bg-stone-200"></div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-12 pt-8">
+                    <div class="flex flex-col gap-2">
+                        <span class="text-xs font-bold tracking-[0.2em] text-stone-900 uppercase">01. Origin</span>
+                        <span class="text-[10px] text-stone-400 uppercase tracking-widest italic">Certified Organic Farms</span>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <span class="text-xs font-bold tracking-[0.2em] text-stone-900 uppercase">02. Precision</span>
+                        <span class="text-[10px] text-stone-400 uppercase tracking-widest italic">Nutritional Excellence</span>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <span class="text-xs font-bold tracking-[0.2em] text-stone-900 uppercase">03. Art</span>
+                        <span class="text-[10px] text-stone-400 uppercase tracking-widest italic">Gastronomic Soul</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+<section id="catering" class="py-32 bg-[#fffdfa] font-['Montserrat']">
+    <div class="max-w-7xl mx-auto px-4 text-center mb-24">
+        <span class="text-[10px] tracking-[0.6em] text-orange-800/60 uppercase font-bold mb-4 block">Selection de la Maison</span>
+        <h2 class="font-['Cormorant_Garamond'] text-5xl md:text-6xl text-[#1a1a1a] italic">Menu Unggulan</h2>
+        <div class="mt-8 flex justify-center items-center gap-4">
+            <div class="h-[1px] w-12 bg-orange-200"></div>
+            <div class="w-2 h-2 rotate-45 border border-orange-300"></div>
+            <div class="h-[1px] w-12 bg-orange-200"></div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-20">
+        <template x-for="p in [
+            {n: 'Salmon Lemon Grill', p: 115000, img: 'Salmon Lemon Grill.jpg', desc: 'Atlantic salmon, zesty lemon, organic herbs.'},
+            {n: 'Salad Quinoa Fit', p: 85000, img: 'Salad Quinoa Fit.jpg', desc: 'Ancient grains, fresh kale, lemon vinaigrette.'},
+            {n: 'Mediterranean Bowls', p: 95000, img: 'Mediterranean Bowls.jpg', desc: 'Hummus, olives, and roasted garden veggies.'},
+            {n: 'Avocado and Egg Toast', p: 60000, img: 'Avocado and Egg Toast.jpg', desc: 'Sourdough, poached egg, hass avocado.'},
+            {n: 'Steak Brokoli', p: 135000, img: 'Steak Brokoli.jpg', desc: 'Premium broccoli steak, truffle oil, almond crumbles.'},
+            {n: 'Ayam Kukus Jahe', p: 75000, img: 'Ayam Kukus Jahe.jpg', desc: 'Organic chicken, ginger broth, scallions.'},
+            {n: 'Pasta Zucchini', p: 70000, img: 'Pasta Zucchini.jpg', desc: 'Zoodles, basil pesto, cherry tomatoes.'},
+            {n: 'Oatmeal Mix Fruit', p: 55000, img: 'Oatmeal Mix Fruit.jpg', desc: 'Rolled oats, seasonal berries, honey.'}
+        ]">
+            <div x-data="{ qty: 1 }" class="group relative flex flex-col items-center">
+                
+                <div class="relative w-full aspect-[4/5] mb-8 overflow-hidden bg-stone-100 rounded-2xl shadow-sm transition-all duration-700 group-hover:shadow-2xl group-hover:-translate-y-2">
+                    <img :src="p.img" class="w-full h-full object-cover transition duration-[2s] group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                </div>
+
+                <div class="text-center px-2 w-full flex flex-col flex-grow">
+                    <h4 class="font-['Cormorant_Garamond'] text-2xl text-[#1a1a1a] mb-1 group-hover:text-orange-800 transition-colors" x-text="p.n"></h4>
+                    <p class="text-[10px] text-stone-400 uppercase tracking-widest mb-4 italic h-8" x-text="p.desc"></p>
+                    <p class="text-sm font-semibold text-stone-800 mb-6" x-text="'Rp ' + p.p.toLocaleString('id-ID')"></p>
+                    
+                    <div class="mt-auto flex flex-col gap-5 items-center">
+                        <div class="inline-flex items-center bg-[#f8f9fa] border border-stone-100 rounded-full px-4 py-1.5 shadow-inner">
+                            <button @click="if(qty > 1) qty--" class="w-8 h-8 flex items-center justify-center text-stone-400 hover:text-black transition-colors text-lg">−</button>
+                            <span class="w-10 text-[13px] font-bold text-slate-800" x-text="qty"></span>
+                            <button @click="qty++" class="w-8 h-8 flex items-center justify-center text-green-800 hover:text-green-600 transition-colors text-lg font-bold">+</button>
+                        </div>
+<button @click="addToCart(p.n, p.p, qty); qty = 1" 
+        class="bg-stone-900 text-white px-8 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-emerald-800 transition">
+    Add to Order
+</button>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+</section>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+
+<section id="testimonials" class="py-20 bg-[#FDFDFD] font-['Plus_Jakarta_Sans']">
+    <div class="max-w-6xl mx-auto px-6">
+        
+        <div class="flex flex-col items-center text-center mb-16">
+            <span class="text-[9px] tracking-[0.5em] text-orange-500 uppercase font-bold mb-3">Client Stories</span>
+            <h2 class="font-['Playfair_Display'] text-3xl md:text-4xl text-slate-900 italic">
+                Suara dari <span class="not-italic font-semibold tracking-tight">Pelanggan Kami</span>
+            </h2>
+            <div class="h-px w-12 bg-stone-200 mt-6"></div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            
+            <template x-for="t in [
+                {n: 'Justin Bieber', l: 'Kanada', t: 'Menu yang variatif membuat hidup sehat saya terasa jauh lebih mewah setiap harinya.', img: 'Justin bieber.jpg'},
+                {n: 'Jennifer Coppen', l: 'Indonesia', t: 'Ketepatan waktu dan kesegaran bahan yang luar biasa. Nourish adalah standar baru katering premium.', img: 'Jennifer Coppen.jpg'},
+                {n: 'Jax Pena', l: 'Filipina', t: 'Bumbu yang presisi dan kebersihan yang tak tertandingi. Akhirnya saya menemukan katering yang jujur.', img: 'jax.jpg'}
+            ]">
+                <div class="group bg-white p-8 rounded-3xl border border-stone-100 shadow-[0_10px_30px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.05)] transition-all duration-500 flex flex-col items-center text-center">
+                    
+                    <div class="mb-6 relative">
+                        <div class="absolute inset-0 bg-orange-50 rounded-full scale-110 opacity-0 group-hover:opacity-100 transition-all"></div>
+                        <img :src="t.img" class="w-16 h-16 rounded-full relative z-10 grayscale group-hover:grayscale-0 transition-all duration-700 border-2 border-white shadow-sm">
+                    </div>
+
+                    <p class="font-['Playfair_Display'] text-[17px] italic text-slate-600 leading-relaxed mb-6" x-text="'&ldquo;' + t.t + '&rdquo;'"></p>
+                    
+                    <div class="mt-auto">
+                        <p class="text-[10px] font-bold tracking-widest text-slate-900 uppercase" x-text="t.n"></p>
+                        <p class="text-[9px] text-stone-400 uppercase tracking-widest mt-1" x-text="t.l"></p>
+                    </div>
+
+                    <div class="flex gap-1 text-[8px] text-orange-400 mt-4 opacity-60">
+                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                    </div>
+                </div>
+            </template>
+
+        </div>
+
+        <div class="mt-16 flex flex-wrap justify-center items-center gap-x-12 gap-y-6 opacity-30 grayscale contrast-125 scale-75">
+            <span class="text-sm font-semibold tracking-tighter">VOGUE</span>
+            <span class="text-sm font-bold tracking-widest">FORBES</span>
+            <span class="text-sm font-serif italic">Bazaar</span>
+            <span class="text-sm font-sans font-black tracking-tight">TATLER</span>
+        </div>
+    </div>
+</section>
+
+  <footer id="contact" class="relative bg-[#080808] text-[#94a3b8] py-28 px-8 overflow-hidden font-['Inter']">
+    <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-orange-900/10 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/2"></div>
+    <div class="absolute -bottom-10 -left-10 text-[15rem] font-['Playfair_Display'] font-black text-white/[0.02] select-none leading-none pointer-events-none">
+        GASTRONOMY
+    </div>
+    
+    <div class="max-w-6xl mx-auto relative">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-24">
+            
+            <div class="lg:col-span-4 space-y-10">
+                <div class="space-y-2">
+                    <h2 class="font-['Playfair_Display'] text-white text-5xl tracking-tight leading-none">
+                        Nourish <span class="italic font-light text-orange-200/50 block mt-2 text-3xl">Catering de Luxe</span>
+                    </h2>
+                    <p class="text-[10px] tracking-[0.5em] uppercase text-orange-500/80 font-semibold">The Gold Standard of Organic</p>
+                </div>
+                <p class="text-sm leading-[2] font-light max-w-sm text-slate-400">
+                    Mengkombinasikan etika pertanian organik dengan teknik kuliner kontemporer. Kami tidak hanya menyajikan makanan; kami menyajikan integritas di atas piring.
+                </p>
+                <div class="flex items-center space-x-6">
+                    <a href="#" class="text-white/40 hover:text-orange-300 transition-colors duration-700"><i class="fab fa-instagram fa-lg"></i></a>
+                    <a href="#" class="text-white/40 hover:text-orange-300 transition-colors duration-700"><i class="fab fa-facebook-f"></i></a>
+                    <div class="h-[1px] w-12 bg-white/10"></div>
+                    <span class="text-[10px] tracking-widest uppercase">Follow the Journey</span>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 space-y-8">
+                <h4 class="text-white font-medium text-xs uppercase tracking-[0.3em]">Experience</h4>
+                <ul class="space-y-4 text-[13px]">
+                    <li><a href="#" class="hover:text-white transition-all duration-500 block transform hover:translate-x-2 italic font-['Playfair_Display'] text-orange-100/70">The Tasting Menu</a></li>
+                    <li><a href="#" class="hover:text-white transition-all duration-500 block transform hover:translate-x-2">Private Chef Table</a></li>
+                    <li><a href="#" class="hover:text-white transition-all duration-500 block transform hover:translate-x-2">Corporate Galas</a></li>
+                    <li><a href="#" class="hover:text-white transition-all duration-500 block transform hover:translate-x-2">Sustainability Report</a></li>
+                </ul>
+            </div>
+
+            <div class="lg:col-span-3 space-y-8 border-l border-white/5 pl-8 hidden lg:block">
+                <h4 class="text-white font-medium text-xs uppercase tracking-[0.3em]">The Concierge</h4>
+                <div class="space-y-6 text-[13px]">
+                    <div class="group cursor-pointer">
+                        <p class="text-[10px] text-orange-500/50 mb-1 tracking-widest uppercase">Inquiries</p>
+                        <p class="text-slate-300 group-hover:text-white transition">concierge@nourish.com</p>
+                    </div>
+                    <div class="group cursor-pointer">
+                        <p class="text-[10px] text-orange-500/50 mb-1 tracking-widest uppercase">Reservations</p>
+                        <p class="text-slate-300 group-hover:text-white transition">+62 21 888 000</p>
+                    </div>
+                    <div class="pt-4">
+                        <p class="text-[10px] text-slate-500 mb-1 tracking-widest uppercase italic">Operational Hours</p>
+                        <p class="text-xs text-slate-400">Mon — Sat: 09:00 - 21:00</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3 space-y-8 bg-white/[0.02] p-8 rounded-2xl border border-white/5">
+                <h4 class="text-white font-medium text-xs uppercase tracking-[0.3em]">L'Invitation</h4>
+                <p class="text-[12px] leading-relaxed italic text-slate-400">Bergabunglah dalam lingkaran eksklusif kami untuk rilis menu musiman dan undangan gala pribadi.</p>
+                <div class="relative group mt-6">
+                    <input type="email" placeholder="Email Address" class="bg-transparent border-b border-white/10 py-3 w-full focus:outline-none focus:border-orange-500/50 text-sm transition-all duration-1000">
+                    <button class="absolute right-0 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-widest font-bold text-orange-300 hover:text-white transition-colors">Join</button>
+                </div>
+                <p class="text-[9px] text-slate-600 mt-4 leading-relaxed">By joining, you agree to our Gastronomy Privacy Protocols.</p>
+            </div>
+        </div>
+
+        <div class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+            <p class="text-[9px] uppercase tracking-[0.4em] text-slate-600">© 2026 Nourish Group. Gastronomy Excellence.</p>
+            <div class="flex space-x-10 text-[9px] uppercase tracking-[0.4em]">
+                <a href="#" class="text-slate-600 hover:text-white transition underline underline-offset-8 decoration-white/5">Terms</a>
+                <a href="#" class="text-slate-600 hover:text-white transition underline underline-offset-8 decoration-white/5">Privacy</a>
+                <a href="#" class="text-slate-600 hover:text-white transition underline underline-offset-8 decoration-white/5">Cookies</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <div x-show="isCartOpen" class="fixed inset-0 z-[100]" x-cloak>
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" @click="isCartOpen = false"></div>
+        <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col"
+            x-transition:enter="translate-x-full transition-transform duration-300" 
+            x-transition:enter-end="translate-x-0" 
+            x-transition:leave="translate-x-0 transition-transform duration-300" 
+            x-transition:leave-end="translate-x-full">
+            
+            <div class="p-8 border-b flex justify-between items-center">
+                <h2 class="text-xl font-black text-slate-800 uppercase tracking-tighter">Keranjang Saya</h2>
+                <button @click="isCartOpen = false" class="text-slate-400 hover:text-red-500 transition"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            
+           <div class="p-8 flex-grow overflow-y-auto space-y-4">
+    <template x-if="cart.length === 0">
+        <div class="text-center py-20">
+            <i class="fas fa-shopping-basket text-5xl text-stone-100 mb-4"></i>
+            <p class="text-slate-400 italic">Keranjang masih kosong...</p>
+        </div>
+    </template>
+
+    <template x-for="(item, index) in cart" :key="index">
+        <div class="flex justify-between items-center bg-stone-50 p-5 rounded-2xl border border-stone-100"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 transform translate-x-8"
+             x-transition:enter-end="opacity-100 transform translate-x-0">
+            
+            <div>
+                <p class="font-bold text-slate-800 text-sm" x-text="item.name"></p>
+                <p class="text-[10px] text-slate-400 font-bold uppercase" x-text="item.qty + ' Porsi'"></p>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <p class="font-black text-green-700 text-sm" x-text="'Rp ' + (item.price * item.qty).toLocaleString('id-ID')"></p>
+                
+                <button @click="removeItem(index)" class="text-red-300 hover:text-red-600 transition">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+        </div>
+    </template>
+</div>
+
+            <div class="p-8 border-t bg-stone-50" x-show="cart.length > 0">
+                <div class="flex justify-between items-center mb-8">
+                    <span class="font-bold text-slate-400 uppercase text-xs tracking-widest">Total Estimasi</span>
+                    <span class="text-3xl font-black text-green-800" x-text="'Rp ' + total.toLocaleString('id-ID')"></span>
+                </div>
+                <button @click="checkout()" class="w-full bg-[#166534] text-white py-5 rounded-2xl font-black uppercase tracking-widest shadow-xl hover:bg-[#14532d] active:scale-95 transition">
+                    Pesan Sekarang (WA)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+ document.addEventListener('alpine:init', () => {
+    Alpine.data('nourishApp', () => ({
+        cart: [],
+        isCartOpen: false,
+
+        // Fungsi Tambah ke Keranjang
+        addToCart(name, price, quantity) {
+            const qtyToAdd = parseInt(quantity);
+            if (isNaN(qtyToAdd) || qtyToAdd < 1) return;
+
+            const existingItem = this.cart.find(item => item.name === name);
+
+            if (existingItem) {
+                existingItem.qty += qtyToAdd;
+            } else {
+                this.cart.push({
+                    name: name,
+                    price: price,
+                    qty: qtyToAdd
+                });
+            }
+            // Buka keranjang otomatis agar user tahu barang sudah masuk
+            this.isCartOpen = true; 
+        },
+
+        // Fungsi Hapus Item
+        removeItem(index) {
+            this.cart.splice(index, 1);
+        },
+
+        // Hitung Total Otomatis
+        get total() {
+            return this.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        },
+
+        // Fungsi Checkout ke WhatsApp
+        checkout() {
+            if (this.cart.length === 0) return;
+
+            let message = "Halo Nourish Catering, saya ingin memesan:%0A%0A";
+            this.cart.forEach(item => {
+                message += `- ${item.name} (${item.qty} Porsi) : Rp ${(item.price * item.qty).toLocaleString('id-ID')}%0A`;
+            });
+            message += `%0A*Total Estimasi: Rp ${this.total.toLocaleString('id-ID')}*`;
+            
+            const whatsappUrl = `https://wa.me/628123456789?text=${message}`; // Ganti nomor WA di sini
+            window.open(whatsappUrl, '_blank');
+        }
+   }))
+});
+</script>
+
+</body>
+</html>
